@@ -1,10 +1,9 @@
 package lesson2;
 public class Point2 {
 public static void main(String[] args) {
-    // Объявляем массив из 5 товаров
+
     lesson2.Product[] productsArray = new lesson2.Product[5];
 
-    // Заполняем массив объектами Product
     productsArray[0] = new lesson2.Product("Samsung S25 Ultra", "01.02.2025",
             "Samsung Corp.", "Korea", 5599, true);
 
@@ -20,7 +19,7 @@ public static void main(String[] args) {
     productsArray[4] = new lesson2.Product("OnePlus 12", "05.03.2025",
             "OnePlus", "China", 4499, true);
 
-    // Выводим информацию о всех товарах
+
     System.out.println("=== ИНФОРМАЦИЯ О ТОВАРАХ ===\n");
     for (int i = 0; i < productsArray.length; i++) {
         System.out.println("Товар #" + (i + 1));
@@ -28,7 +27,6 @@ public static void main(String[] args) {
         System.out.println();
     }
 
-    // Дополнительно: поиск свободных товаров
     System.out.println("=== СВОБОДНЫЕ ТОВАРЫ ===\n");
     for (int i = 0; i < productsArray.length; i++) {
         if (!productsArray[i].isReserved()) {

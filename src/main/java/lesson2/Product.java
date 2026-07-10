@@ -8,7 +8,6 @@ public class Product {
         private int price;
         private boolean reserved;
 
-        // Конструктор с параметрами
         public Product(String name, String date, String manufacturer,
                        String country, int price, boolean reserved) {
             this.name = name;
@@ -19,7 +18,6 @@ public class Product {
             this.reserved = reserved;
         }
 
-        // Геттеры
         public String getName() {
             return name;
         }
@@ -44,7 +42,6 @@ public class Product {
             return reserved;
         }
 
-        // Сеттеры (опционально)
         public void setName(String name) {
             this.name = name;
         }
@@ -69,7 +66,6 @@ public class Product {
             this.reserved = reserved;
         }
 
-        // Метод для вывода информации
         public void displayInfo() {
             System.out.println("Название: " + name);
             System.out.println("Дата: " + date);
