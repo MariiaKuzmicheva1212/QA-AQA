@@ -2,6 +2,15 @@ package lesson7;
 import java.util.Scanner;
 
 public class NumberComparator {
+    public static String compareNumbers(int a, int b) {
+        if (a < b) {
+            return "<";
+        } else if (a > b) {
+            return ">";
+        } else {
+            return "=";
+        }
+    }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 

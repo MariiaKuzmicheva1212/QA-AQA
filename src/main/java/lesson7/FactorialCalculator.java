@@ -2,6 +2,18 @@ package lesson7;
 import java.util.Scanner;
 
 public class FactorialCalculator {
+    public static long calculateFactorial(int n) {
+        if (n < 0) {
+            return -1; // Ошибка: отрицательное число
+        }
+
+        long factorial = 1;
+        for (int i = 1; i <= n; i++) {
+            factorial *= i;
+        }
+        return factorial;
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
