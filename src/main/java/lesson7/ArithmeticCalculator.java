@@ -3,6 +3,17 @@ package lesson7;
 import java.util.Scanner;
 
 public class ArithmeticCalculator {
+    public static double calculate(double a, char operation, double b) {
+        switch (operation) {
+            case '+': return a + b;
+            case '-': return a - b;
+            case '*': return a * b;
+            case '/':
+                if (b == 0) return Double.NaN;
+                return a / b;
+            default: return Double.NaN;
+        }
+    }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
