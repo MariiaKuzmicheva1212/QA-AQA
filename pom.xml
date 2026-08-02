@@ -31,6 +31,13 @@
             <version>5.4.0</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Playwright для автоматизации браузера -->
+        <dependency>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+            <version>1.40.0</version>
+        </dependency>
     </dependencies>
 
 </project>
