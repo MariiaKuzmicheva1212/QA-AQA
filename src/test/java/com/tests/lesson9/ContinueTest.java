@@ -1,48 +1,79 @@
 package com.tests.lesson9;
 
-import com.microsoft.playwright.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.Assert;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserType;
+import pages.HomePage;
+import pages.PaymentPage;
 
 public class ContinueTest {
 
+    private Playwright playwright;
+    private Browser browser;
+    private Page page;
+    private HomePage homePage;
+
+    @BeforeMethod
+    public void setUp() {
+        playwright = Playwright.create();
+        browser = playwright.chromium().launch(
+                new BrowserType.LaunchOptions().setHeadless(false)
+        );
+        page = browser.newPage();
+        homePage = new HomePage(page);
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (browser != null) {
+            browser.close();
+        }
+        if (playwright != null) {
+            playwright.close();
+        }
+    }
+
     @Test
     public void testContinueMts() {
-        Playwright playwright = Playwright.create();
-        Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-        Page page = browser.newPage();
+        homePage.open();
 
-        page.navigate("https://www.mts.by/");
-        page.waitForTimeout(3000);
+        homePage.acceptCookies();
 
-        try {
-            page.locator("button:has-text('Принять')").click();
-        } catch (Exception e) {
-        }
+        Assert.assertEquals(homePage.getPhonePlaceholder(), "Номер телефона",
+                "Placeholder для телефона не соответствует");
+        Assert.assertEquals(homePage.getSumPlaceholder(), "Сумма",
+                "Placeholder для суммы не соответствует");
+        Assert.assertEquals(homePage.getEmailPlaceholder(), "E-mail для отправки чека",
+                "Placeholder для email не соответствует");
 
-        page.locator("#connection-phone").scrollIntoViewIfNeeded();
-        page.waitForTimeout(500);
+        System.out.println("✓ Все placeholder'ы проверены");
 
-        page.fill("#connection-phone", "297777777");
-        page.fill("#connection-sum", "123");
-        page.fill("#connection-email", "rewffa@yandex.ru");
+        homePage.fillPhoneNumber("297777777")
+                .fillSum("123")
+                .fillEmail("rewffa@yandex.ru");
 
-        page.click("//*[@id = 'pay-connection']//button[text() = 'Продолжить']");
-        System.out.println("Нажали 'Продолжить'");
+        PaymentPage paymentPage = homePage.clickContinue();
 
-        System.out.println("Ждем появления окна оплаты...");
+        Assert.assertTrue(paymentPage.isPaymentFrameVisible(),
+                "Окно оплаты не открылось");
 
-        Locator paymentFrame = page.locator(".payment-widget-iframe");
+        Assert.assertTrue(paymentPage.verifyAllPaymentDetails(),
+                "Не все детали оплаты отображаются корректно");
 
-        paymentFrame.waitFor(new Locator.WaitForOptions().setTimeout(15000));
-
-        if (paymentFrame.isVisible()) {
-            System.out.println("Окно оплаты успешно открылось!");
-        } else {
-            System.out.println("Окно оплаты не открылось.");
-        }
+        Assert.assertTrue(paymentPage.isPhoneNumberDisplayed(),
+                "Номер телефона не отображается");
+        Assert.assertTrue(paymentPage.areAllSumElementsDisplayed(),
+                "Сумма отображается не во всех местах");
+        Assert.assertTrue(paymentPage.areAllCardLabelsCorrect(),
+                "Лейблы полей карты не соответствуют ожидаемым");
 
         page.waitForTimeout(3000);
-        browser.close();
-        playwright.close();
+
+        System.out.println("✅ Тест успешно завершен!");
     }
 }
