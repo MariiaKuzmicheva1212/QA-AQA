@@ -4,6 +4,7 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
+import io.qameta.allure.Step;
 
 public class BasePage {
     protected Page page;
@@ -14,7 +15,7 @@ public class BasePage {
         this.page = page;
     }
 
-    // Метод для инициализации браузера
+    @Step("Инициализация браузера")
     public void initBrowser() {
         playwright = Playwright.create();
         browser = playwright.chromium().launch(
@@ -23,7 +24,7 @@ public class BasePage {
         page = browser.newPage();
     }
 
-    // Метод для закрытия браузера
+    @Step("Закрытие браузера")
     public void closeBrowser() {
         if (browser != null) {
             browser.close();

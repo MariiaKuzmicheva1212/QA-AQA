@@ -3,6 +3,7 @@ package pages;
 import com.microsoft.playwright.Frame;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import io.qameta.allure.Step;
 
 public class PaymentPage extends BasePage {
 
@@ -14,6 +15,7 @@ public class PaymentPage extends BasePage {
         this.paymentFrameLocator = page.locator(".payment-widget-iframe");
     }
 
+    @Step("Получить iframe оплаты")
     private Frame getPaymentFrame() {
         if (paymentFrame == null) {
             try {
@@ -42,6 +44,7 @@ public class PaymentPage extends BasePage {
         return paymentFrame;
     }
 
+    @Step("Проверить, что окно оплаты отобразилось")
     public boolean isPaymentFrameVisible() {
         System.out.println("Ждем появления окна оплаты...");
         try {
@@ -57,6 +60,7 @@ public class PaymentPage extends BasePage {
         return false;
     }
 
+    @Step("Проверить отображение номера телефона 375297777777")
     public boolean isPhoneNumberDisplayed() {
         try {
             Frame frame = getPaymentFrame();
@@ -74,6 +78,7 @@ public class PaymentPage extends BasePage {
         }
     }
 
+    @Step("Проверить отображение суммы 123.00")
     public boolean areAllSumElementsDisplayed() {
         try {
             Frame frame = getPaymentFrame();
@@ -108,7 +113,6 @@ public class PaymentPage extends BasePage {
                 }
             }
             try {
-                // Ищем любой текст содержащий 123
                 Locator numberElements = frame.locator("//*[contains(text(), '123')]");
                 int numberCount = numberElements.count();
                 if (numberCount > 0) {
@@ -134,16 +138,6 @@ public class PaymentPage extends BasePage {
                 return true;
             } else {
                 System.out.println("✗ Сумма 123.00 не найдена");
-
-                System.out.println("\n--- HTML IFRAME ДЛЯ ОТЛАДКИ (первые 2000 символов) ---");
-                String html = frame.content();
-                if (html.length() > 2000) {
-                    System.out.println(html.substring(0, 2000) + "...");
-                } else {
-                    System.out.println(html);
-                }
-                System.out.println("--- КОНЕЦ HTML ---\n");
-
                 return false;
             }
         } catch (Exception e) {
@@ -152,6 +146,7 @@ public class PaymentPage extends BasePage {
         }
     }
 
+    @Step("Проверить лейблы полей карты")
     public boolean areAllCardLabelsCorrect() {
         try {
             Frame frame = getPaymentFrame();
@@ -182,6 +177,7 @@ public class PaymentPage extends BasePage {
         }
     }
 
+    @Step("Проверить все детали оплаты")
     public boolean verifyAllPaymentDetails() {
         boolean allChecksPassed = true;
 

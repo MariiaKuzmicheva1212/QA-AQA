@@ -10,7 +10,15 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
 import pages.HomePage;
 import pages.PaymentPage;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 
+@Epic("MTS Payment Tests")
+@Feature("Payment Process")
 public class ContinueTest {
 
     private Playwright playwright;
@@ -39,6 +47,9 @@ public class ContinueTest {
     }
 
     @Test
+    @Description("Проверка процесса оплаты через форму на сайте MTS")
+    @Story("Проверка платежного виджета")
+    @Severity(SeverityLevel.CRITICAL)
     public void testContinueMts() {
         homePage.open();
 

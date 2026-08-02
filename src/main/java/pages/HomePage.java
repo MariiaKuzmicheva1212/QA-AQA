@@ -2,10 +2,10 @@ package pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import io.qameta.allure.Step;
 
 public class HomePage extends BasePage {
 
-    // Локаторы
     private final Locator acceptCookiesButton;
     private final Locator connectionPhoneInput;
     private final Locator connectionSumInput;
@@ -22,13 +22,14 @@ public class HomePage extends BasePage {
         this.continueButton = page.locator("//*[@id = 'pay-connection']//button[text() = 'Продолжить']");
     }
 
-    // Методы действий
+    @Step("Открыть главную страницу MTS")
     public HomePage open() {
         page.navigate("https://www.mts.by/");
         page.waitForTimeout(3000);
         return this;
     }
 
+    @Step("Принять куки")
     public HomePage acceptCookies() {
         try {
             acceptCookiesButton.click();
@@ -38,20 +39,22 @@ public class HomePage extends BasePage {
         return this;
     }
 
-    // Геттеры для получения значений placeholder'ов
+    @Step("Получить placeholder поля 'Номер телефона'")
     public String getPhonePlaceholder() {
         return connectionPhoneInput.getAttribute("placeholder");
     }
 
+    @Step("Получить placeholder поля 'Сумма'")
     public String getSumPlaceholder() {
         return connectionSumInput.getAttribute("placeholder");
     }
 
+    @Step("Получить placeholder поля 'E-mail'")
     public String getEmailPlaceholder() {
         return connectionEmailInput.getAttribute("placeholder");
     }
 
-    // Методы заполнения
+    @Step("Заполнить поле 'Номер телефона': {phone}")
     public HomePage fillPhoneNumber(String phone) {
         connectionPhoneInput.scrollIntoViewIfNeeded();
         page.waitForTimeout(500);
@@ -59,16 +62,19 @@ public class HomePage extends BasePage {
         return this;
     }
 
+    @Step("Заполнить поле 'Сумма': {sum}")
     public HomePage fillSum(String sum) {
         connectionSumInput.fill(sum);
         return this;
     }
 
+    @Step("Заполнить поле 'E-mail': {email}")
     public HomePage fillEmail(String email) {
         connectionEmailInput.fill(email);
         return this;
     }
 
+    @Step("Нажать кнопку 'Продолжить'")
     public PaymentPage clickContinue() {
         continueButton.click();
         System.out.println("Нажали 'Продолжить'");
